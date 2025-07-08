@@ -2,8 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500&display=swap');
 
 @layer base {
   html {
@@ -11,22 +12,163 @@
   }
   
   body {
-    @apply bg-white dark:bg-dark-300 text-gray-900 dark:text-gray-100;
-    font-family: 'Inter', sans-serif;
+    @apply bg-black text-green-400;
+    font-family: 'Fira Code', 'JetBrains Mono', monospace;
+    background-image: 
+      radial-gradient(circle at 20% 80%, rgba(0, 255, 0, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(255, 0, 255, 0.05) 0%, transparent 50%);
+  }
+
+  /* Matrix rain effect */
+  .matrix-bg {
+    background: linear-gradient(180deg, 
+      rgba(0, 0, 0, 0.9) 0%, 
+      rgba(0, 20, 0, 0.8) 50%, 
+      rgba(0, 0, 0, 0.9) 100%);
+  }
+
+  /* Terminal cursor blink */
+  .terminal-cursor {
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  /* Glitch effect */
+  .glitch {
+    position: relative;
+  }
+
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .glitch::before {
+    animation: glitch-1 2s infinite linear alternate-reverse;
+    color: #00ff00;
+    z-index: -1;
+  }
+
+  .glitch::after {
+    animation: glitch-2 3s infinite linear alternate-reverse;
+    color: #ff00ff;
+    z-index: -2;
+  }
+
+  @keyframes glitch-1 {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+  }
+
+  @keyframes glitch-2 {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(2px, -2px); }
+    40% { transform: translate(2px, 2px); }
+    60% { transform: translate(-2px, -2px); }
+    80% { transform: translate(-2px, 2px); }
+  }
+
+  /* Scan line effect */
+  .scan-line {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scan-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00ff00, transparent);
+    animation: scan 3s linear infinite;
+  }
+
+  @keyframes scan {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100vh); }
+  }
+
+  /* Circuit board pattern */
+  .circuit-bg {
+    background-image: 
+      linear-gradient(90deg, rgba(0, 255, 0, 0.1) 1px, transparent 1px),
+      linear-gradient(rgba(0, 255, 0, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  /* Holographic effect */
+  .holographic {
+    background: linear-gradient(45deg, 
+      #00ff00, #00ffff, #ff00ff, #ffff00, #00ff00);
+    background-size: 400% 400%;
+    animation: holographic 3s ease infinite;
+  }
+
+  @keyframes holographic {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 }
 
 @layer components {
+  .btn-cyber {
+    @apply bg-transparent border-2 border-green-400 text-green-400 font-mono px-6 py-3 
+           hover:bg-green-400 hover:text-black transition-all duration-300 
+           hover:shadow-lg hover:shadow-green-400/50 relative overflow-hidden;
+  }
+
+  .btn-cyber::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.2), transparent);
+    transition: left 0.5s;
+  }
+
+  .btn-cyber:hover::before {
+    left: 100%;
+  }
+
   .btn-primary {
-    @apply bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+    @apply bg-green-600 hover:bg-green-700 text-black font-mono py-3 px-6 
+           border-2 border-green-400 transition-all duration-300 
+           hover:shadow-lg hover:shadow-green-400/50;
   }
   
   .btn-secondary {
-    @apply bg-gray-200 hover:bg-gray-300 dark:bg-dark-100 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+    @apply bg-transparent border-2 border-cyan-400 text-cyan-400 font-mono py-3 px-6 
+           hover:bg-cyan-400 hover:text-black transition-all duration-300 
+           hover:shadow-lg hover:shadow-cyan-400/50;
   }
   
-  .card {
-    @apply bg-white dark:bg-dark-100 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700;
+  .card-cyber {
+    @apply bg-black/80 border-2 border-green-400/50 rounded-lg p-6 
+           backdrop-blur-sm hover:border-green-400 transition-all duration-300
+           hover:shadow-lg hover:shadow-green-400/20;
+  }
+
+  .card-terminal {
+    @apply bg-black border border-green-400 rounded-none p-4 font-mono
+           shadow-lg shadow-green-400/20;
   }
   
   .section-padding {
@@ -36,10 +178,75 @@
   .container-max {
     @apply max-w-7xl mx-auto;
   }
+
+  .terminal-text {
+    @apply font-mono text-green-400;
+  }
+
+  .terminal-prompt {
+    @apply text-cyan-400;
+  }
+
+  .terminal-output {
+    @apply text-green-300;
+  }
+
+  .terminal-error {
+    @apply text-red-400;
+  }
+
+  .network-node {
+    @apply w-4 h-4 bg-green-400 rounded-full animate-pulse;
+  }
+
+  .network-connection {
+    @apply border-t border-green-400/50;
+  }
+
+  .security-badge {
+    @apply inline-flex items-center gap-2 px-3 py-1 bg-red-900/50 border border-red-400 
+           text-red-400 rounded font-mono text-sm;
+  }
+
+  .linux-badge {
+    @apply inline-flex items-center gap-2 px-3 py-1 bg-blue-900/50 border border-blue-400 
+           text-blue-400 rounded font-mono text-sm;
+  }
+
+  .iot-badge {
+    @apply inline-flex items-center gap-2 px-3 py-1 bg-purple-900/50 border border-purple-400 
+           text-purple-400 rounded font-mono text-sm;
+  }
 }
 
 @layer utilities {
   .text-gradient {
-    @apply bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-green-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent;
+  }
+
+  .text-matrix {
+    @apply text-green-400;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  }
+
+  .border-cyber {
+    @apply border-2 border-green-400/50;
+  }
+
+  .shadow-cyber {
+    @apply shadow-lg shadow-green-400/20;
+  }
+
+  .animate-typing {
+    animation: typing 3s steps(40, end);
+  }
+
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  .animate-blink {
+    animation: blink 1s infinite;
   }
 } 

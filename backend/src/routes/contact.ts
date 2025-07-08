@@ -4,27 +4,29 @@ import { ContactForm, ApiResponse } from '../types';
 const router = Router();
 
 // POST /api/contact - Submit contact form
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const { name, email, subject, message }: ContactForm = req.body;
 
     // Basic validation
     if (!name || !email || !subject || !message) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Missing required fields',
         message: 'Please provide name, email, subject, and message'
       } as ApiResponse);
+      return;
     }
 
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Invalid email format',
         message: 'Please provide a valid email address'
       } as ApiResponse);
+      return;
     }
 
     // Here you would typically:
